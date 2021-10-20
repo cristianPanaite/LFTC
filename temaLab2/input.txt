@@ -1,0 +1,49 @@
+#include <iostream>
+using namespace std ;
+int main ( )
+{
+int x ;
+double pi = 3.13 ;
+cin >> x ;
+double perim = 2 * pi ;
+perim = perim * x ;
+double aria = pi * x ;
+aria = aria * x ;
+cout << perim ;
+cout << aria ;
+}
+#include <iostream>
+using namespace std ;
+int main ( )
+{
+int a ;
+int b ;
+cin >> a ;
+cin >> b;
+while ( a != b )
+{
+	if ( a > b )
+{
+		a = a - b ;
+	}
+else
+{
+	b = b - a ;
+}
+}
+cout << a ;
+}
+#include <iostream>
+using namespace std ;
+int main ( )
+{
+int n ;
+int sum = 0 ;
+while ( n > 0 )
+{
+	int a ;
+	cin >> a ;
+	sum = sum + a ;
+	n = n - 1 ;
+}
+}
