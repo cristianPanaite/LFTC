@@ -1,3 +1,4 @@
+import AFD
 import utils
 
 cod_atom = utils.cod_atom
@@ -8,6 +9,13 @@ index = 0
 accoladeCnt = 0
 roundBracketCnt = 0
 
+muchii, stari_initiale, stari_finale = utils.read_file("constante.txt")
+afdConstante = AFD.AFD()
+afdConstante.reInit(muchii, stari_initiale, stari_finale)
+
+muchii, stari_initiale, stari_finale = utils.read_file("identificatori.txt")
+afdIdentificatori = AFD.AFD()
+afdIdentificatori.reInit(muchii, stari_initiale, stari_finale)
 
 def check_include_statement(l, i):
     errors = ""
@@ -194,10 +202,10 @@ def add_in_tables(l, i):
     for el in elements:
         if el in cod_atom:
             fip.append((cod_atom[el], '-'))
-        elif utils.check_constant(el):
+        elif utils.check_constant(el, afdConstante):
             indx = add_in_ts(el)
             fip.append((cod_atom['CONST'], indx))
-        elif utils.check_variable(el):
+        elif utils.check_variable(el, afdIdentificatori):
             indx = add_in_ts(el)
             fip.append((cod_atom['ID'], indx))
         else:
@@ -218,6 +226,7 @@ def print_tables():
 
 
 def main():
+
     with open('date.txt') as f:
         lines = f.readlines()
         err = ""

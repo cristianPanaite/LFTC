@@ -10,5 +10,5 @@ perim = perim * x ;
 double aria = pi * x ;
 aria = aria * x ;
 cout << perim ;
-cout << Aria ;
+cout << aria ;
 }

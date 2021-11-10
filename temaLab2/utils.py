@@ -42,18 +42,34 @@ cod_atom = {
 libraries = ['<iostream>']
 
 
-def check_constant(value):
-    try:
-        x = float(value)
-        return True
-    except:
-        return False
+def read_file(filename):
+    with open(filename) as f:
+        lines = f.readlines()
+        nr_tranzitii = lines.pop(0)
+        nr_tranzitii = nr_tranzitii.strip()
+        nr_tranzitii = int(nr_tranzitii)
+        muchii = []
+        while nr_tranzitii:
+            tranzitie = lines.pop(0).strip().split()
+            muchii.append((tranzitie[0], tranzitie[1], tranzitie[2]))
+            nr_tranzitii -= 1
+        nr_intrari = int(lines.pop(0).strip())
+        stari_initiale = []
+        while nr_intrari:
+            stare = lines.pop(0).strip()
+            stari_initiale.append(stare)
+            nr_intrari -= 1
+        nr_finale = int(lines.pop(0).strip())
+        stari_finale = []
+        while nr_finale:
+            stari_finale.append(lines.pop(0).strip())
+            nr_finale -= 1
+    return [muchii, stari_initiale, stari_finale]
 
 
-def check_variable(value):
-    if len(value) > 250 or len(value) < 1:
-        return False
-    for i in value:
-        if i < 'a' or i > 'z':
-            return False
-    return True
+def check_constant(value, afd):
+    return afd.accepta(value)
+
+
+def check_variable(value, afd):
+    return afd.accepta(value)

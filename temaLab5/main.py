@@ -14,12 +14,53 @@ BNF tip input
 <intrari> := <stare>
  <finale> := <stare>
  <stare> := 'q0' | 'q'[1-9][0-9]*
+
+Float numbers in C:
+<floating-point-constant> := <fractional-constant> <exponent-part>{0,1} <floating-suffix>{0, 1} |
+                             <digit-sequence> <exponent-part> <floating-suffix>
+<fractional-constant> := <digit-sequence>{0,1}. <digit-sequence> |
+                         <digit-sequence>.
+<exponent-part> := e <sign>{0,1} <digit-sequence>
+                   E <sign>{0,1} <digit-sequence>
+
+<sign> := + | -
+<digit-sequence> := <digit>
+                    <digit-sequence> <digit>
+
+<floating-suffix> := f | l | F | L
+
+<digit> := [0, 9]
 """
 import AFD
 
 
 def read_file():
     with open("date.txt") as f:
+        lines = f.readlines()
+        nr_tranzitii = lines.pop(0)
+        nr_tranzitii = nr_tranzitii.strip()
+        nr_tranzitii = int(nr_tranzitii)
+        muchii = []
+        while nr_tranzitii:
+            tranzitie = lines.pop(0).strip().split()
+            muchii.append((tranzitie[0], tranzitie[1], tranzitie[2]))
+            nr_tranzitii -= 1
+        nr_intrari = int(lines.pop(0).strip())
+        stari_initiale = []
+        while nr_intrari:
+            stare = lines.pop(0).strip()
+            stari_initiale.append(stare)
+            nr_intrari -= 1
+        nr_finale = int(lines.pop(0).strip())
+        stari_finale = []
+        while nr_finale:
+            stari_finale.append(lines.pop(0).strip())
+            nr_finale -= 1
+    return [muchii, stari_initiale, stari_finale]
+
+
+def read_file_FloatC():
+    with open("floatNumbersC.txt") as f:
         lines = f.readlines()
         nr_tranzitii = lines.pop(0)
         nr_tranzitii = nr_tranzitii.strip()
@@ -68,12 +109,13 @@ def print_options():
     print("Optiuni:")
     print("\t1. Citeste AFD din fisier")
     print("\t2. Citeste AFD de la tastatura")
-    print("\t3. Afiseaza multimea starilor")
-    print("\t4. Afiseaza alfabetul")
-    print("\t5. Afiseaza tranzitiile")
-    print("\t6. Afiseaza multimea starilor finale")
-    print("\t7. Verifica secventa")
-    print("\t8. Determina cel mai lung prefix")
+    print("\t3. Citeste AFD de la tastatura")
+    print("\t4. Afiseaza multimea starilor")
+    print("\t5. Afiseaza alfabetul")
+    print("\t6. Afiseaza tranzitiile")
+    print("\t7. Afiseaza multimea starilor finale")
+    print("\t8. Verifica secventa")
+    print("\t9. Determina cel mai lung prefix")
     print("\t0. exit")
     print("Insereaza numarul corespunzator optiunii dorite")
 
@@ -93,24 +135,28 @@ def main():
             AutomatFinitDeterminist.reInit(muchii, stari_initiale, stari_finale)
             continue
         if cmd == 3:
-            print(AutomatFinitDeterminist.get_multimea_starilor())
+            muchii, stari_initiale, stari_finale = read_file_FloatC()
+            AutomatFinitDeterminist.reInit(muchii, stari_initiale, stari_finale)
             continue
         if cmd == 4:
-            print(AutomatFinitDeterminist.get_alfabet())
+            print(AutomatFinitDeterminist.get_multimea_starilor())
             continue
         if cmd == 5:
+            print(AutomatFinitDeterminist.get_alfabet())
+            continue
+        if cmd == 6:
             tranzitii = AutomatFinitDeterminist.get_tranzitii()
             for t in tranzitii:
                 print(t)
             continue
-        if cmd == 6:
+        if cmd == 7:
             print(AutomatFinitDeterminist.get_stari_finale())
             continue
-        if cmd == 7:
+        if cmd == 8:
             secventa = input("Introdu secventa: ")
             print(AutomatFinitDeterminist.accepta(secventa))
             continue
-        if cmd == 8:
+        if cmd == 9:
             secventa = input("Introdu secventa: ")
             print(AutomatFinitDeterminist.prefix_maxim(secventa))
             continue
